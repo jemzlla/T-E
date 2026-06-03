@@ -1,7 +1,5 @@
 package main
-
 import "fmt"
-
 const NMAX int = 100
 
 type Siswa struct {
@@ -28,10 +26,9 @@ type ArrayAbsensi struct {
 	n    int
 }
 
-// Prosedur insertionSortByNama untuk emngurutkan nama siswa
+func insertionSortByNama(arrSiswa *ArraySiswa) {
 // IS: aeeSiswa terdefinisi, berisi data siswa yang belum terurut
 // FS: arrSiswa.data terurut ascending berdasarkan nama siswa (A-Z)
-func insertionSortByNama(arrSiswa *ArraySiswa) {
 	for i := 1; i < arrSiswa.n; i++ {
 		test := arrSiswa.data[i]
 		j := i - 1
@@ -43,10 +40,9 @@ func insertionSortByNama(arrSiswa *ArraySiswa) {
 	}
 }
 
-// Prosedur selectionSortByPersentase
+func selectionSortByPersentase(arrSiswa *ArraySiswa, ascending bool) {
 // IS: arrSiswa terdefinisi, berisi data siswa dengan jumlah hadir/tidak hadir
 // FS: arrSiswa.data terurut berdasarkan persentase kehadiran; ascending = true, descending = false
-func selectionSortByPersentase(arrSiswa *ArraySiswa, ascending bool) {
 	for i := 0; i < arrSiswa.n-1; i++ {
 		idxTarget := i
 		for j := i + 1; j < arrSiswa.n; j++ {
@@ -77,10 +73,8 @@ func selectionSortByPersentase(arrSiswa *ArraySiswa, ascending bool) {
 	}
 }
 
-// Fungsi sequentialSearchSiswwa
-// IS: arrSiswa terdefinisi, nama terdefinisi
-// FS: mengembalikan index siswa jika ditemukan, -1 jika tidak ditemukan, namuan pencarian dilakukan satu per satu dari index yang ke o hingga ke n-1
 func sequentialSearchSiswa(arrSiswa ArraySiswa, nama string) int {
+// Fungsi sequentialSearchSiswa mengembalikan indeks siswa jika ditemukan atau -1 jika tidak ditemukan dengan pencarian berurutan dari 0 hingga n-1
 	hasil := -1
 	for i := 0; i < arrSiswa.n; i++ {
 		if arrSiswa.data[i].nama == nama {
@@ -90,10 +84,9 @@ func sequentialSearchSiswa(arrSiswa ArraySiswa, nama string) int {
 	return hasil
 }
 
-//Fungsi sequentialSearchTanggal
-// IS: arrAbsensi terdefinisi, tanggal terdefinisi
-// FS: mengembalikan index absensi jika tanggal ditemukan, jika tidak -1 dan pencarian dilakukan satu per satu dari index ke 0 hingga ke n-1
 func sequentialSearchTanggal(arrAbsensi ArrayAbsensi, tanggal string) int {
+// Fungsi sequentialSearchTanggal mengembalikan index absensi jika tanggal ditemukan, 
+// -1 jika tidak ditemukan, pencarian dilakukan satu per satu dari index 0 hingga n-1
 	hasil := -1
 	for i := 0; i < arrAbsensi.n; i++ {
 		if arrAbsensi.data[i].tanggal == tanggal {
@@ -103,10 +96,8 @@ func sequentialSearchTanggal(arrAbsensi ArrayAbsensi, tanggal string) int {
 	return hasil
 }
 
-// Fungsi bianrySearchSiswa
-// IS: arrSiswa terdefinisi dan sudah terurut secara ascending berdasarkan nama
-// FS: mengembalikan index siswa jika ditemukan, namun jika tidak ditemukan -1 dan pencarian dilakukan dengan membagi array menjadi dua bagian
 func binarySearchSiswa(arrSiswa ArraySiswa, nama string) int {
+// Fungsi binarySearchSiswa mengembalikan index siswa jika ditemukan, -1 jika tidak ditemukan dengan pencarian membagi array menjadi dua bagian
 	low := 0
 	high := arrSiswa.n - 1
 	hasil := -1
@@ -125,10 +116,9 @@ func binarySearchSiswa(arrSiswa ArraySiswa, nama string) int {
 	return hasil
 }
 
-// Prosedur untuk menambah siswa baru
+func tambahSiswa(arrSiswa *ArraySiswa) {
 // IS: arrSiswa terdefinisi, n < NMAX
 // FS: arrSiswa.data bertambah satu elemen siswa baru, arrSiswa.n bertambah 1
-func tambahSiswa(arrSiswa *ArraySiswa) {
 	if arrSiswa.n >= NMAX {
 		fmt.Println("Data siswa sudah penuh!")
 	} else {
@@ -148,17 +138,15 @@ func tambahSiswa(arrSiswa *ArraySiswa) {
 	}
 }
 
-// Prosedur untuk mengubah data siswa (menggunakan binary search)
-// IS: arrSiswa terdefinisi, nama siswa yang ingin diubah terdefinisi
-// FS: data siswa dengan nama yang dicari berhasil diubah (nama dan kelas), jika tidak ditemukan maka tidak ada perubahannya. Menggunakan Insertion Sort + Binary Search untuk pencarian
 func ubahSiswa(arrSiswa *ArraySiswa) {
+// IS: arrSiswa terdefinisi, nama siswa yang ingin diubah terdefinisi
+// FS: data siswa dengan nama yang dicari berhasil diubah (nama dan kelas), 
+//     jika tidak ditemukan maka tidak ada perubahannya. Menggunakan Insertion Sort + Binary Search untuk pencarian
 	var nama string
 	fmt.Print("Nama siswa yang ingin diubah: ")
 	fmt.Scan(&nama)
-
 	//Sebelum Binary Search lakukan proses Insertion Sort terlebih dahulu
 	insertionSortByNama(arrSiswa)
-
 	// Binary Search untuk cari nama siswa
 	idx := binarySearchSiswa(*arrSiswa, nama)
 	if idx == -1 {
@@ -173,18 +161,15 @@ func ubahSiswa(arrSiswa *ArraySiswa) {
 	}
 }
 
-// Prosedure untuk menghapus data siswa
-// IS: arrSiswa terdefinisi, nama siswa yang ingin dihapus telah terdefinisi
-// FS: data siswa dengan nama yang dicari berhasil dihapus, ketika arrSiswa.n berkurang 1 maka data digeser ke kiri dan jika tidak ditemukan maka tidak ada perubahan.
-//     menggunakan Insertion Sort + Binary Search untuk pencarian
 func hapusSiswa(arrSiswa *ArraySiswa) {
+// IS: arrSiswa terdefinisi, nama siswa yang ingin dihapus telah terdefinisi
+// FS: data siswa dengan nama yang dicari berhasil dihapus, ketika arrSiswa.n berkurang 1 maka data digeser ke kiri 
+//     dan jika tidak ditemukan maka tidak ada perubahan menggunakan Insertion Sort + Binary Search untuk pencarian
 	var nama string
 	fmt.Print("Nama siswa yang ingin dihapus: ")
 	fmt.Scan(&nama)
-
 	//Sebelum Binary Search lakukan proses Insertion Sort terlebih dahulu
 	insertionSortByNama(arrSiswa)
-
 	// Binary Search untuk cari nama siswa
 	idx := binarySearchSiswa(*arrSiswa, nama)
 	if idx == -1 {
@@ -200,10 +185,9 @@ func hapusSiswa(arrSiswa *ArraySiswa) {
 	}
 }
 
-// Prosedur inputAbsensi
+func inputAbsensi(arrSiswa *ArraySiswa, arrAbsensi *ArrayAbsensi) {
 // IS: arrSiswa terdefinisi dan tidak kosong, arrAbsensi terdefinisi
 // FS: arrAbsensi.data bertambah satu data absensi harian baru, jumlahHadir/jumlahTidakHadir setiap siswa diperbarui
-func inputAbsensi(arrSiswa *ArraySiswa, arrAbsensi *ArrayAbsensi) {
 	var absen AbsensiHarian
 	absen.n = arrSiswa.n
 	var status int
@@ -237,11 +221,10 @@ func inputAbsensi(arrSiswa *ArraySiswa, arrAbsensi *ArrayAbsensi) {
 	}
 }
 
-// Prosedure cariKehadiranTanggal
+func cariKehadiranTanggal(arrAbsensi ArrayAbsensi) {
 // IS: arrAbsensi dan tanggal terdefinsisi
 // FS: menampilkan daftar kehadiran siswa pada tanggal yang dicari, jika tidak tampilkan pesan error.
 //     menggunakan Sequential Search untuk mencari tanggal
-func cariKehadiranTanggal(arrAbsensi ArrayAbsensi) {
 	var tanggal string
 	fmt.Print("Tanggal (DD-MM-YYYY): ")
 	fmt.Scan(&tanggal)
@@ -265,12 +248,11 @@ func cariKehadiranTanggal(arrAbsensi ArrayAbsensi) {
 	}
 }
 
-// Prosedur cariSiswaMenu
+func cariSiswaMenu(arrSiswa *ArraySiswa) {
 // IS: arrSiswa, nama dan metode terdefinisi
 // FS: menampilkan data siswa yang ditemukan beserta statistik kehadirannya,
 //     jika Sequential Search -> cari satu per satu tanpa perlu data terurut
 //     jika Binary Search -> pertama sort dengan Insertion sort kemudian menggunakan binary search
-func cariSiswaMenu(arrSiswa *ArraySiswa) {
 	var nama string
 	var cara int
 
@@ -325,10 +307,9 @@ func cariSiswaMenu(arrSiswa *ArraySiswa) {
 	}
 }
 
-// Prosedur tampilkanStatistik
+func tampilkanStatistik(arrSiswa ArraySiswa) {
 // IS: arrSiswa terdefinisi dan tidak dapat kosong
 // FS: menampilkan nama, kelas, jumlah hadir, tidak hadir, dan persentase kehadiran setiap siswa
-func tampilkanStatistik(arrSiswa ArraySiswa) {
 	if arrSiswa.n == 0 {
 		fmt.Println("Belum ada data siswa!")
 	} else {
@@ -352,10 +333,10 @@ func tampilkanStatistik(arrSiswa ArraySiswa) {
 	}
 }
 
-// Prosedur tampilkanSiswaTerurut
-// IS: arrSiswa terdefinisi dan tidak dapat kosong; ascending = 1, descending =2
-// FS: arrSiswa.data terurt berdasarkan persentase kehadiran, menampilkan daftar siswa beserta persentase kehadiran, menampilkan daftar siswa beserta persentase kehadiran dan menggunakan Selection Sort untuk proses pengurutannya
 func tampilkanSiswaTerurut(arrSiswa *ArraySiswa) {
+// IS: arrSiswa terdefinisi dan tidak dapat kosong; ascending = 1, descending =2
+// FS: arrSiswa.data terurt berdasarkan persentase kehadiran, menampilkan daftar siswa beserta persentase kehadiran, 
+//     menampilkan daftar siswa beserta persentase kehadiran dan menggunakan Selection Sort untuk proses pengurutannya
 	var urutan int
 	valid := true
 
@@ -393,9 +374,6 @@ func tampilkanSiswaTerurut(arrSiswa *ArraySiswa) {
 	}
 }
 
-// Prosedur tampilkanMenu
-// IS: tidak ada
-// FS: menampilkan menu pilihan ke layar
 func tampilkanMenu() {
 	fmt.Println("\n=========================================")
 	fmt.Println("Aplikasi Absensi Siswa")
