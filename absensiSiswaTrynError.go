@@ -27,7 +27,7 @@ type ArrayAbsensi struct {
 }
 
 func insertionSortByNama(arrSiswa *ArraySiswa) {
-// IS: aeeSiswa terdefinisi, berisi data siswa yang belum terurut
+// IS: arrSiswa terdefinisi, berisi data siswa yang belum terurut
 // FS: arrSiswa.data terurut ascending berdasarkan nama siswa (A-Z)
 	for i := 1; i < arrSiswa.n; i++ {
 		test := arrSiswa.data[i]
